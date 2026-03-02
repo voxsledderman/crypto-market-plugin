@@ -13,12 +13,14 @@ import org.voxsledderman.cryptoExchange.infrastructure.config.manager.MenuConfig
 import org.voxsledderman.cryptoExchange.presentation.minecraft.MenuContext;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.items.BackItem;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.items.NextItem;
+import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.items.StateFilterItem;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.items.TradeItem;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.tittle.MenuType;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.gui.PagedGui;
 import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.item.Item;
+import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ public class PortfolioMenu extends Menu{
                 .addIngredient('T', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
                 .addIngredient('N', new NextItem(true))
                 .addIngredient('B', new BackItem(false))
+                .addIngredient('P', new StateFilterItem(positionState, wallet, priceProvider, getMenuContext()))
                 .addIngredient('w', new SimpleItem(new ItemStack(Material.WHITE_STAINED_GLASS_PANE)))
                 .addIngredient('b', new SimpleItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)))
                 .setContent(items)

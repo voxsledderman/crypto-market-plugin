@@ -36,9 +36,13 @@ public class MainMenu extends Menu{
         List<Item> cryptoItems = new ArrayList<>();
         Map<String, CryptoInfo> map = priceProvider.getFullMarketData(getAppConfigManager().getTrackedTickers());
 
-        for(String key : map.keySet()){
-            cryptoItems.add(new CryptoItem(new CryptoInfo(map.get(key).fullName(), map.get(key).price(), map.get(key).changePercent())));
-        }
+        map.entrySet()
+                .stream()
+                .sorted((a, b) -> Double.compare(b.getValue().price().doubleValue(), a.getValue().price().doubleValue()))
+                .forEach(entry -> cryptoItems.add(new CryptoItem(
+                        new CryptoInfo(entry.getValue().fullName(), entry.getValue().price(), entry.getValue().changePercent())
+                )));
+
         return PagedGui.items()
                 .setStructure(
                         "P . . . . . . . ." ,
