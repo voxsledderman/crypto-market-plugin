@@ -6,33 +6,23 @@ import dev.rollczi.litecommands.annotations.execute.Execute;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.voxsledderman.cryptoExchange.domain.market.PriceProvider;
-import org.voxsledderman.cryptoExchange.domain.repositories.EconomyRepository;
-import org.voxsledderman.cryptoExchange.domain.repositories.WalletRepository;
-import org.voxsledderman.cryptoExchange.infrastructure.config.manager.AppConfigManager;
-import org.voxsledderman.cryptoExchange.infrastructure.config.manager.MenuConfigManager;
+import org.voxsledderman.cryptoExchange.presentation.minecraft.MenuContext;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.MainMenu;
 
 @Command(name = "exchange", aliases = {"ex", "giełda"})
 public class ExchangeCommand {
-    private final AppConfigManager appConfigManager;
-    private final MenuConfigManager menuConfigManager;
     private final PriceProvider priceProvider;
-    private final WalletRepository walletRepository;
-    private final EconomyRepository economyRepository;
+    private final MenuContext menuContext;
 
-    public ExchangeCommand(AppConfigManager appConfigManager, MenuConfigManager menuConfigManager,
-                           PriceProvider priceProvider, WalletRepository walletRepository, EconomyRepository economyRepository) {
-        this.appConfigManager = appConfigManager;
-        this.menuConfigManager = menuConfigManager;
+    public ExchangeCommand(MenuContext menuContext, PriceProvider priceProvider) {
         this.priceProvider = priceProvider;
-        this.walletRepository = walletRepository;
-        this.economyRepository = economyRepository;
+        this.menuContext = menuContext;
     }
 
     @Execute
     void openExchange(@Context CommandSender sender){
         if(sender instanceof Player player){
-            MainMenu menu = new MainMenu(appConfigManager, menuConfigManager,player, priceProvider, walletRepository, economyRepository);
+            MainMenu menu = new MainMenu(menuContext ,player, priceProvider);
             menu.openMenu(player);
 
         }

@@ -9,12 +9,9 @@ import org.voxsledderman.cryptoExchange.application.usecases.GetOrCreateWalletUs
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
 import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
 import org.voxsledderman.cryptoExchange.domain.market.PriceProvider;
-import org.voxsledderman.cryptoExchange.domain.repositories.EconomyRepository;
-import org.voxsledderman.cryptoExchange.domain.repositories.WalletRepository;
 import org.voxsledderman.cryptoExchange.domain.services.WalletCalculator;
-import org.voxsledderman.cryptoExchange.infrastructure.config.manager.AppConfigManager;
-import org.voxsledderman.cryptoExchange.infrastructure.config.manager.MenuConfigManager;
 import org.voxsledderman.cryptoExchange.presentation.formatters.PriceFormatter;
+import org.voxsledderman.cryptoExchange.presentation.minecraft.MenuContext;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.Menu;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.PortfolioMenu;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.tittle.MenuType;
@@ -27,25 +24,17 @@ import java.util.UUID;
 public class WalletItem extends AbstractItem {
    private final Wallet wallet;
    private final PriceProvider priceProvider;
-   private final AppConfigManager appConfigManager;
-   private final MenuConfigManager menuConfigManager;
-   private final WalletRepository walletRepository;
-   private final EconomyRepository economyRepository;
+   private final MenuContext menuContext;
 
-    public WalletItem(UUID uuid, WalletRepository walletRepository, PriceProvider priceProvider, AppConfigManager appConfigManager, MenuConfigManager menuConfigManager,  EconomyRepository economyRepository) {
+    public WalletItem(UUID uuid , PriceProvider priceProvider, MenuContext menuContext, GetOrCreateWalletUseCase getOrCreateWalletUseCase) {
         this.priceProvider = priceProvider;
-        this.appConfigManager = appConfigManager;
-        this.menuConfigManager = menuConfigManager;
-        this.walletRepository = walletRepository;
-        this.economyRepository = economyRepository;
-        var getWallet = new GetOrCreateWalletUseCase(walletRepository);
-
-        wallet = getWallet.getOrCreateWallet(uuid);
+        this.menuContext = menuContext;
+        wallet = getOrCreateWalletUseCase.getOrCreateWallet(uuid);
     }
 
     @Override
     public ItemProvider getItemProvider(){
-        var tickers = priceProvider.getFullMarketData(appConfigManager.getTrackedTickers());
+        var tickers = priceProvider.getFullMarketData(menuContext.getAppConfigManager().getTrackedTickers());
 
         String currentValue = PriceFormatter.formatMoney(
                 WalletCalculator.getPortfolioValue(wallet, tickers));
@@ -63,8 +52,8 @@ public class WalletItem extends AbstractItem {
         if(wallet.getOrders().isEmpty()){
             return;
         }
-        Menu menu = new PortfolioMenu(appConfigManager, MenuType.OPENED_POSITIONS, menuConfigManager, walletRepository, wallet,
-                priceProvider, PositionState.OPENED, economyRepository);
+        Menu menu = new PortfolioMenu(MenuType.OPENED_POSITIONS, wallet,
+                priceProvider, PositionState.OPENED, menuContext);
         menu.openMenu(player);
     }
 }

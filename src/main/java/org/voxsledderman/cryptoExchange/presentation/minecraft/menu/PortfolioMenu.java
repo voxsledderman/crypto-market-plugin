@@ -10,6 +10,7 @@ import org.voxsledderman.cryptoExchange.domain.repositories.EconomyRepository;
 import org.voxsledderman.cryptoExchange.domain.repositories.WalletRepository;
 import org.voxsledderman.cryptoExchange.infrastructure.config.manager.AppConfigManager;
 import org.voxsledderman.cryptoExchange.infrastructure.config.manager.MenuConfigManager;
+import org.voxsledderman.cryptoExchange.presentation.minecraft.MenuContext;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.items.BackItem;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.items.NextItem;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.items.TradeItem;
@@ -29,10 +30,9 @@ public class PortfolioMenu extends Menu{
     private final PriceProvider priceProvider;
     private final PositionState positionState;
 
-    public PortfolioMenu(AppConfigManager appConfigManager, MenuType menuType,
-                         MenuConfigManager menuConfigManager, WalletRepository walletRepository,
-                         Wallet wallet, PriceProvider priceProvider, PositionState positionState, EconomyRepository economyRepository) {
-        super(appConfigManager, menuType, menuConfigManager, walletRepository, economyRepository);
+    public PortfolioMenu(MenuType menuType, Wallet wallet, PriceProvider priceProvider,
+                         PositionState positionState, MenuContext menuContext) {
+        super(menuContext, menuType);
         this.wallet = wallet;
         this.priceProvider = priceProvider;
         this.positionState = positionState;

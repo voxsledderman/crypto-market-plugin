@@ -19,6 +19,7 @@ import org.voxsledderman.cryptoExchange.infrastructure.config.ApplicationBootstr
 import org.voxsledderman.cryptoExchange.infrastructure.config.manager.AppConfigManager;
 import org.voxsledderman.cryptoExchange.infrastructure.config.manager.MenuConfigManager;
 import org.voxsledderman.cryptoExchange.infrastructure.providers.BinanceWebSocketProvider;
+import org.voxsledderman.cryptoExchange.presentation.minecraft.MenuContext;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.command.ExchangeCommand;
 
 import java.sql.SQLException;
@@ -55,20 +56,12 @@ public final class CryptoExchangePlugin extends JavaPlugin {
             return;
         }
         economyRepository = new VaultEconomyRepository(economy);
-        
-        this.liteCommands = LiteBukkitFactory.builder("voxsledderman", this)
-                .commands(
-                        new ExchangeCommand(appConfigManager, menuConfigManager, binanceWebSocketProvider, walletRepository, economyRepository)
-                )
-                .message(LiteMessages.MISSING_PERMISSIONS, permission -> "§cNie masz permisji na wykonanie tej komendy!")
-                .message(LiteMessages.INVALID_USAGE, invalidUsage ->  "§cNiepoprawne użycie komendy!")
-                .build();
 
         Bukkit.getScheduler().runTaskLater(this, () ->{
             binanceWebSocketProvider = new BinanceWebSocketProvider(appConfigManager.getTrackedTickers(), appConfigManager.getQuoteCurrency());
             this.liteCommands = LiteBukkitFactory.builder("voxsledderman", this)
                     .commands(
-                            new ExchangeCommand(appConfigManager, menuConfigManager, binanceWebSocketProvider, walletRepository, economyRepository)
+                            new ExchangeCommand(new MenuContext(appConfigManager, menuConfigManager, walletRepository, economyRepository), binanceWebSocketProvider)
                     )
                     .message(LiteMessages.MISSING_PERMISSIONS, permission -> "§cNie masz permisji na wykonanie tej komendy!")
                     .message(LiteMessages.INVALID_USAGE, invalidUsage ->  "§cNiepoprawne użycie komendy!")

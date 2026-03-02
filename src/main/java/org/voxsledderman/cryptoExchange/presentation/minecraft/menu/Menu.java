@@ -7,30 +7,26 @@ import org.voxsledderman.cryptoExchange.domain.repositories.EconomyRepository;
 import org.voxsledderman.cryptoExchange.domain.repositories.WalletRepository;
 import org.voxsledderman.cryptoExchange.infrastructure.config.manager.AppConfigManager;
 import org.voxsledderman.cryptoExchange.infrastructure.config.manager.MenuConfigManager;
+import org.voxsledderman.cryptoExchange.presentation.minecraft.MenuContext;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.tittle.MenuType;
 import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.window.Window;
 
-@Getter
 public abstract class Menu  {
-   private final AppConfigManager appConfigManager;
-   private final MenuConfigManager menuConfigManager;
+   @Getter
    private Window window;
    private final MenuType menuType;
-   private final WalletRepository walletRepository;
-   private final EconomyRepository economyRepository;
-
-    public Menu(AppConfigManager appConfigManager, MenuType menuType, MenuConfigManager menuConfigManager, WalletRepository walletRepository, EconomyRepository economyRepository) {
-        this.appConfigManager = appConfigManager;
-        this.menuConfigManager = menuConfigManager;
+   @Getter
+   private final MenuContext menuContext;
+    public Menu(MenuContext menuContext, MenuType menuType) {
         this.menuType = menuType;
-        this.walletRepository = walletRepository;
-        this.economyRepository = economyRepository;
+        this.menuContext = menuContext;
+
     }
 
     public Component setupTitle(){
-        return menuConfigManager.getTitleByType(menuType);
+        return getMenuConfigManager().getTitleByType(menuType);
     };
 
    public abstract Gui setupGui();
@@ -42,6 +38,22 @@ public abstract class Menu  {
                 new AdventureComponentWrapper(setupTitle())).build();
         window.open();
         playOpenSound();
+    }
+
+    protected AppConfigManager getAppConfigManager(){
+        return menuContext.getAppConfigManager();
+    }
+
+    protected MenuConfigManager getMenuConfigManager(){
+        return menuContext.getMenuConfigManager();
+    }
+
+    protected EconomyRepository getEconomyRepository(){
+        return menuContext.getEconomyRepository();
+    }
+
+    protected WalletRepository getWalletRepository(){
+        return menuContext.getWalletRepository();
     }
 
 
