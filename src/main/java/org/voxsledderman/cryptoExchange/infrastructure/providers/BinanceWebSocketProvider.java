@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 public class BinanceWebSocketProvider implements PriceProvider {
 
-    private final Map<String, BigDecimal> latestPrices = new ConcurrentHashMap<>();
+    private final Map<String, CryptoInfo> latestPrices = new ConcurrentHashMap<>();
     private final Map<String, String> latestChanges = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private WebSocketClient client;
@@ -54,7 +54,10 @@ public class BinanceWebSocketProvider implements PriceProvider {
                         BigDecimal price = new BigDecimal(data.get("c").asText());
                         String change = data.get("P").asText();
 
-                        latestPrices.put(symbol, price);
+                        latestPrices.put(symbol, new CryptoInfo(
+                                Currency.getInstance(symbol.replace(quoteCurrency.getCurrencyTicker(), "")).getDisplayName(),
+                                price, change
+                        ));
                         latestChanges.put(symbol, change);
                     } catch (Exception e) {
                         System.err.println("Błąd parsowania: " + e.getMessage());
@@ -108,7 +111,7 @@ public class BinanceWebSocketProvider implements PriceProvider {
                 .filter(latestPrices::containsKey)
                 .collect(Collectors.toMap(
                         ticker -> ticker,
-                        latestPrices::get
+                        ticker -> latestPrices.get(ticker).price()
                 ));
     }
 
@@ -119,21 +122,21 @@ public class BinanceWebSocketProvider implements PriceProvider {
                 .collect(Collectors.toMap(
                         ticker -> ticker,
                         ticker -> new CryptoInfo(Currency.getInstance(ticker.replace(quoteCurrency.getCurrencyTicker(), ""))
-                                .getDisplayName(),latestPrices.get(ticker), latestChanges.get(ticker))
+                                .getDisplayName(), latestPrices.get(ticker).price(), latestChanges.get(ticker))
                 ));
     }
 
     @Override
-    public BigDecimal getCurrentPrice(String ticker) {
+    public CryptoInfo getCurrentData(String ticker) {
         if (ticker == null || ticker.isBlank()) {
             throw new IllegalArgumentException("Ticker cant be null or blank");
         }
 
-        BigDecimal price = latestPrices.get(ticker.toUpperCase());
+        CryptoInfo info = latestPrices.get(ticker.toUpperCase());
 
-        if (price == null) {
+        if (info == null) {
             throw new IllegalArgumentException("Unknown ticker: [%s]".formatted(ticker));
         }
-        return price;
+        return info;
     }
 }

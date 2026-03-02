@@ -3,17 +3,21 @@ package org.voxsledderman.cryptoExchange.domain.entities;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
+import org.voxsledderman.cryptoExchange.infrastructure.providers.CryptoInfo;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Wallet {
-    private final UUID ownerUuid;
-    private final Map<String, List<TradeOrder>> orders;
+    private UUID ownerUuid;
+    private Map<String, List<TradeOrder>> orders;
 
 
     public void addTrade(TradeOrder tradeOrder){
@@ -25,21 +29,5 @@ public class Wallet {
             throw new IllegalArgumentException("Wallet doesn't contain this TradeOrder");
         }
         orders.get(ticker).remove(tradeOrder);
-    }
-
-    public BigDecimal getTotalEarnings(Map<String, BigDecimal> currentPrices) {
-        return orders.values().stream()
-                .flatMap(List::stream)
-                .map(trade -> {
-                    BigDecimal currentPrice = currentPrices.get(trade.getTicker());
-                    if (currentPrice == null) return BigDecimal.ZERO;
-                    return trade.getProfit(currentPrice);
-                }).reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
-    public List<TradeOrder> filterOrdersByPositionState(PositionState positionState){
-        return orders.values().stream()
-                .flatMap(List::stream)
-                .filter(order -> order.getPositionState().equals(positionState))
-                .toList();
     }
 }

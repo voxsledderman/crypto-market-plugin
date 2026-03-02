@@ -1,4 +1,4 @@
-package org.voxsledderman.cryptoExchange.infrastructure.config;
+package org.voxsledderman.cryptoExchange.infrastructure.config.manager;
 
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -6,13 +6,13 @@ import org.voxsledderman.cryptoExchange.CryptoExchangePlugin;
 import org.voxsledderman.cryptoExchange.domain.market.QuoteCurrency;
 import org.voxsledderman.cryptoExchange.domain.validators.MarketConfigValidator;
 import org.voxsledderman.cryptoExchange.domain.validators.MySqlValidator;
+import org.voxsledderman.cryptoExchange.infrastructure.config.MySqlConnectionData;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class ConfigManager {
+public class AppConfigManager {
 
     private final CryptoExchangePlugin plugin;
     private QuoteCurrency quoteCurrency;
@@ -20,11 +20,10 @@ public class ConfigManager {
     private BigDecimal spread;
     private boolean mySqlEnabled;
     private MySqlConnectionData mySqlConnectionData;
-    private List<String> commandWords;
 
 
 
-    public ConfigManager(CryptoExchangePlugin plugin) {
+    public AppConfigManager(CryptoExchangePlugin plugin) {
         this.plugin = plugin;
         loadConfig();
     }

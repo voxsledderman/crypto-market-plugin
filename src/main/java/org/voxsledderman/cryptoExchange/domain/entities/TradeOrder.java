@@ -2,6 +2,7 @@ package org.voxsledderman.cryptoExchange.domain.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
 
 import java.math.BigDecimal;
@@ -10,8 +11,9 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class TradeOrder {
-    private final Long id;
+    private Long id;
     private String ticker;
     private UUID walletUuid;
     private BigDecimal amount;

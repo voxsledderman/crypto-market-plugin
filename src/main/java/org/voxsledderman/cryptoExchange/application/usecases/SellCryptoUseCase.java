@@ -21,7 +21,7 @@ public class SellCryptoUseCase {
         if (!sellerId.equals(wallet.getOwnerUuid())) {
             throw new IllegalArgumentException("seller is not the owner of provided wallet!");
         }
-        BigDecimal totalValue = tradeOrder.getTradeValueNow(priceProvider.getCurrentPrice(tradeOrder.getTicker()));
+        BigDecimal totalValue = tradeOrder.getTradeValueNow(priceProvider.getCurrentData(tradeOrder.getTicker()).price());
         if (totalValue.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Provided CryptoAsset value is equal or smaller than 0!");
         }

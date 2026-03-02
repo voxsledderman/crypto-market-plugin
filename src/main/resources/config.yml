@@ -13,10 +13,7 @@ menu:
     main-menu:
     portfolio-opened-positions:
     portfolio-closed-positions:
-
-  menu_type: #Defines whether the menu will be: 1 -> Paged, (page 1, 2, 3 etc.) or 2 -> Scrollable (scroll down, scroll up),
-    paged: false #if both of those values are the same, (false, false) or (true, true), the scrollable version will be used
-    scrollable: true
+    admin-settings:
   menu-sounds:
     menu-open:
     menu-close:
@@ -41,18 +38,35 @@ market:
   tracked-cryptos:
     - "BTC"
     - "ETH"
-    - "SOL"
-    - "ADA"
-    - "POL"
-    - "BTC"
+    - "USDT"
+    - "BNB"
     - "XRP"
+    - "SOL"
+    - "USDC"
     - "DOGE"
+    - "TRX"
+    - "ADA"
+    - "MATIC"
     - "LINK"
     - "LTC"
-    - "PEPE"
-    - "XMR"
-    - "DAI"
     - "BCH"
+    - "XLM"
+    - "AVAX"
+    - "DOT"
+    - "SUI"
+    - "HBAR"
+    - "XMR"
+    - "ALGO"
+    - "NEAR"
+    - "UNI"
+    - "FIL"
+    - "ICP"
+    - "OKB"
+    - "SHIB"
+    - "LEO"
+    - "HYPE"
+    - "TON"
+    - "DAI"
 
 # If MySQL is disabled SQLite will be used instead
 MySQL_database:

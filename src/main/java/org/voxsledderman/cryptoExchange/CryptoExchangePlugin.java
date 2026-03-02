@@ -4,7 +4,6 @@ import com.j256.ormlite.support.ConnectionSource;
 import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.bukkit.LiteBukkitFactory;
 import dev.rollczi.litecommands.message.LiteMessages;
-import dev.rollczi.litecommands.scope.Scope;
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -17,7 +16,8 @@ import org.voxsledderman.cryptoExchange.domain.repositories.impl.walletRepo.Cach
 import org.voxsledderman.cryptoExchange.domain.repositories.WalletRepository;
 import org.voxsledderman.cryptoExchange.domain.repositories.impl.walletRepo.OrmLiteWalletRepository;
 import org.voxsledderman.cryptoExchange.infrastructure.config.ApplicationBootstrap;
-import org.voxsledderman.cryptoExchange.infrastructure.config.ConfigManager;
+import org.voxsledderman.cryptoExchange.infrastructure.config.manager.AppConfigManager;
+import org.voxsledderman.cryptoExchange.infrastructure.config.manager.MenuConfigManager;
 import org.voxsledderman.cryptoExchange.infrastructure.providers.BinanceWebSocketProvider;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.command.ExchangeCommand;
 
@@ -26,7 +26,8 @@ import java.sql.SQLException;
 @Getter
 public final class CryptoExchangePlugin extends JavaPlugin {
 
-    private final ConfigManager configManager = new ConfigManager(this);
+    private final AppConfigManager appConfigManager = new AppConfigManager(this);
+    private final MenuConfigManager menuConfigManager = new MenuConfigManager(this, false);
     private BinanceWebSocketProvider binanceWebSocketProvider;
     private ConnectionSource connectionSource;
     private WalletRepository walletRepository;
@@ -35,7 +36,7 @@ public final class CryptoExchangePlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        ApplicationBootstrap appBootstrap = new ApplicationBootstrap(configManager, getDataFolder());
+        ApplicationBootstrap appBootstrap = new ApplicationBootstrap(appConfigManager, getDataFolder());
         connectionSource = appBootstrap.connectToDB();
 
         try {
@@ -57,17 +58,17 @@ public final class CryptoExchangePlugin extends JavaPlugin {
         
         this.liteCommands = LiteBukkitFactory.builder("voxsledderman", this)
                 .commands(
-                        new ExchangeCommand(configManager, binanceWebSocketProvider)
+                        new ExchangeCommand(appConfigManager, menuConfigManager, binanceWebSocketProvider, walletRepository, economyRepository)
                 )
                 .message(LiteMessages.MISSING_PERMISSIONS, permission -> "§cNie masz permisji na wykonanie tej komendy!")
                 .message(LiteMessages.INVALID_USAGE, invalidUsage ->  "§cNiepoprawne użycie komendy!")
                 .build();
 
         Bukkit.getScheduler().runTaskLater(this, () ->{
-            binanceWebSocketProvider = new BinanceWebSocketProvider(configManager.getTrackedTickers(), configManager.getQuoteCurrency());
+            binanceWebSocketProvider = new BinanceWebSocketProvider(appConfigManager.getTrackedTickers(), appConfigManager.getQuoteCurrency());
             this.liteCommands = LiteBukkitFactory.builder("voxsledderman", this)
                     .commands(
-                            new ExchangeCommand(configManager, binanceWebSocketProvider)
+                            new ExchangeCommand(appConfigManager, menuConfigManager, binanceWebSocketProvider, walletRepository, economyRepository)
                     )
                     .message(LiteMessages.MISSING_PERMISSIONS, permission -> "§cNie masz permisji na wykonanie tej komendy!")
                     .message(LiteMessages.INVALID_USAGE, invalidUsage ->  "§cNiepoprawne użycie komendy!")
@@ -79,7 +80,9 @@ public final class CryptoExchangePlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         try {
-            connectionSource.close();
+            if(connectionSource != null) {
+                connectionSource.close();
+            }
         } catch (Exception e) {
             getLogger().severe("Failed to close database connection");
             throw new RuntimeException(e);

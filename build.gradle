@@ -83,7 +83,6 @@ tasks {
         relocate("com.fasterxml.jackson", "org.voxsledderman.cryptoExchange.libs.jackson")
         relocate("org.java_websocket", "org.voxsledderman.cryptoExchange.libs.websocket")
         relocate("com.j256.ormlite", "org.voxsledderman.cryptoExchange.libs.ormlite")
-        relocate("org.sqlite", "org.voxsledderman.cryptoExchange.libs.sqlite")
         relocate("com.zaxxer.hikari", "org.voxsledderman.cryptoExchange.libs.hikari")
         relocate("dev.rollczi.litecommands", "org.voxsledderman.cryptoExchange.libs.litecommands")
     }

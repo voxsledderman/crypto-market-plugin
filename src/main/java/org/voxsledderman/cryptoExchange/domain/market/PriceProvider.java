@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface PriceProvider {
-    BigDecimal getCurrentPrice(String ticker);
+    CryptoInfo getCurrentData(String ticker);
     Map<String, CryptoInfo> getFullMarketData(List<String> tickers);
 }

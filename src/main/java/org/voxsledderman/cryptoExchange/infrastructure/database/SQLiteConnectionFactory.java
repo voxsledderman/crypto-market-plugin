@@ -50,7 +50,6 @@ public class SQLiteConnectionFactory {
         this.path = path;
         String url = "jdbc:sqlite:" + path;
 
-        // Bezpośrednie połączenie ORMLite z SQLite - najszybsze i najbezpieczniejsze
         this.connectionSource = new JdbcConnectionSource(url);
     }
 
