@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
 import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
@@ -17,18 +18,22 @@ import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
+import java.util.Objects;
+
 @Getter
 public class StateFilterItem extends AbstractItem {
     private final PositionState positionState;
     private final Wallet wallet;
     private final PriceProvider priceProvider;
     private final MenuContext menuContext;
+    private final JavaPlugin plugin;
 
-    public StateFilterItem(PositionState currentState, Wallet wallet, PriceProvider priceProvider, MenuContext menuContext) {
+    public StateFilterItem(PositionState currentState, Wallet wallet, PriceProvider priceProvider, MenuContext menuContext, JavaPlugin plugin) {
         positionState = currentState;
         this.wallet = wallet;
         this.priceProvider = priceProvider;
         this.menuContext = menuContext;
+        this.plugin = plugin;
     }
 
 
@@ -48,14 +53,18 @@ public class StateFilterItem extends AbstractItem {
     }
     @Override
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
+        PositionState newPositionState;
+        MenuType menuType;
 
-        if(positionState.equals(PositionState.OPENED)){
-            Menu menu = new PortfolioMenu(MenuType.CLOSED_POSITIONS, wallet, priceProvider, PositionState.CLOSED, menuContext);
-            menu.openMenu(player);
+        if (Objects.requireNonNull(positionState) == PositionState.OPENED) {
+            newPositionState = PositionState.CLOSED;
+            menuType = MenuType.CLOSED_POSITIONS;
         } else {
-            Menu menu = new PortfolioMenu(MenuType.OPENED_POSITIONS, wallet, priceProvider, PositionState.CLOSED, menuContext);
-            menu.openMenu(player);
+            newPositionState = PositionState.OPENED;
+            menuType = MenuType.OPENED_POSITIONS;
         }
-
+        Menu menu = new PortfolioMenu(menuType, wallet, priceProvider,
+                newPositionState, menuContext, plugin);
+        menu.openMenu(player);
     }
 }
