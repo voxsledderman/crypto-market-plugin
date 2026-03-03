@@ -4,11 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
-import org.voxsledderman.cryptoExchange.infrastructure.providers.CryptoInfo;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 
 @Data

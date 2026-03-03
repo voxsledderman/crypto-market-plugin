@@ -2,12 +2,10 @@ package org.voxsledderman.cryptoExchange.infrastructure.persistence.mappers;
 
 import org.voxsledderman.cryptoExchange.domain.entities.TradeOrder;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
+import org.voxsledderman.cryptoExchange.infrastructure.persistence.daos.TradeOrderDao;
 import org.voxsledderman.cryptoExchange.infrastructure.persistence.daos.WalletDao;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class WalletMapper {
