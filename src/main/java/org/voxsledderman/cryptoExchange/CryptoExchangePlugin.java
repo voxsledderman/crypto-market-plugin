@@ -61,7 +61,7 @@ public final class CryptoExchangePlugin extends JavaPlugin {
             binanceWebSocketProvider = new BinanceWebSocketProvider(appConfigManager.getTrackedTickers(), appConfigManager.getQuoteCurrency());
             this.liteCommands = LiteBukkitFactory.builder("voxsledderman", this)
                     .commands(
-                            new ExchangeCommand(new MenuContext(appConfigManager, menuConfigManager, walletRepository, economyRepository), binanceWebSocketProvider)
+                            new ExchangeCommand(new MenuContext(appConfigManager, menuConfigManager, walletRepository, economyRepository), binanceWebSocketProvider, this)
                     )
                     .message(LiteMessages.MISSING_PERMISSIONS, permission -> "§cNie masz permisji na wykonanie tej komendy!")
                     .message(LiteMessages.INVALID_USAGE, invalidUsage ->  "§cNiepoprawne użycie komendy!")

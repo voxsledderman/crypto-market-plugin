@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.voxsledderman.cryptoExchange.application.usecases.GetOrCreateWalletUseCase;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
@@ -25,10 +26,12 @@ public class WalletItem extends AbstractItem {
    private final Wallet wallet;
    private final PriceProvider priceProvider;
    private final MenuContext menuContext;
+   private final JavaPlugin plugin;
 
-    public WalletItem(UUID uuid , PriceProvider priceProvider, MenuContext menuContext, GetOrCreateWalletUseCase getOrCreateWalletUseCase) {
+    public WalletItem(UUID uuid , PriceProvider priceProvider, MenuContext menuContext, GetOrCreateWalletUseCase getOrCreateWalletUseCase, JavaPlugin plugin) {
         this.priceProvider = priceProvider;
         this.menuContext = menuContext;
+        this.plugin = plugin;
         wallet = getOrCreateWalletUseCase.getOrCreateWallet(uuid);
     }
 
@@ -37,8 +40,8 @@ public class WalletItem extends AbstractItem {
         var tickers = priceProvider.getFullMarketData(menuContext.getAppConfigManager().getTrackedTickers());
 
         String currentValue = PriceFormatter.formatMoney(
-                WalletCalculator.getPortfolioValue(wallet, tickers));
-        String roi = PriceFormatter.formatPercentage(WalletCalculator.getROI(wallet, tickers).toString());
+                WalletCalculator.getCurrentPortfolioValue(wallet, tickers));
+        String roi = PriceFormatter.formatPercentage(WalletCalculator.getCurrentROI(wallet, tickers).toString());
 
         ItemBuilder builder = new ItemBuilder(Material.BOOK);
         builder.setDisplayName("Your portfolio");
@@ -53,7 +56,7 @@ public class WalletItem extends AbstractItem {
             return;
         }
         Menu menu = new PortfolioMenu(MenuType.OPENED_POSITIONS, wallet,
-                priceProvider, PositionState.OPENED, menuContext);
+                priceProvider, PositionState.OPENED, menuContext, plugin);
         menu.openMenu(player);
     }
 }

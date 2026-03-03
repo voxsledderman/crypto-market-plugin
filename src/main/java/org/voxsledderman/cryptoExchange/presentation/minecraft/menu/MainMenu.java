@@ -2,6 +2,7 @@ package org.voxsledderman.cryptoExchange.presentation.minecraft.menu;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.voxsledderman.cryptoExchange.application.usecases.GetOrCreateWalletUseCase;
 import org.voxsledderman.cryptoExchange.domain.market.PriceProvider;
 import org.voxsledderman.cryptoExchange.domain.repositories.EconomyRepository;
@@ -25,8 +26,8 @@ import java.util.Map;
 public class MainMenu extends Menu{
     private final Player player;
     private final PriceProvider priceProvider;
-    public MainMenu(MenuContext menuContext, Player player, PriceProvider priceProvider) {
-        super(menuContext, MenuType.MAIN);
+    public MainMenu(MenuContext menuContext, Player player, PriceProvider priceProvider, JavaPlugin plugin) {
+        super(plugin, menuContext, MenuType.MAIN);
         this.player = player;
         this.priceProvider = priceProvider;
     }
@@ -40,7 +41,7 @@ public class MainMenu extends Menu{
                 .stream()
                 .sorted((a, b) -> Double.compare(b.getValue().price().doubleValue(), a.getValue().price().doubleValue()))
                 .forEach(entry -> cryptoItems.add(new CryptoItem(
-                        new CryptoInfo(entry.getValue().fullName(), entry.getValue().price(), entry.getValue().changePercent())
+                        entry.getKey(), priceProvider, getMenuContext(), getPlugin(), entry.getKey()
                 )));
 
         return PagedGui.items()
@@ -56,7 +57,7 @@ public class MainMenu extends Menu{
                 .addIngredient('E', new CloseItem(new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setDisplayName("Close menu")))
                 .addIngredient('B', new BackItem(false))
                 .addIngredient('N', new NextItem(true))
-                .addIngredient('P', new WalletItem(player.getUniqueId(),  priceProvider, getMenuContext(), new GetOrCreateWalletUseCase(getWalletRepository())))
+                .addIngredient('P', new WalletItem(player.getUniqueId(),  priceProvider, getMenuContext(), new GetOrCreateWalletUseCase(getWalletRepository()), getPlugin()))
                 .setContent(cryptoItems)
                 .build();
     }

@@ -2,12 +2,14 @@ package org.voxsledderman.cryptoExchange.presentation.minecraft.menu;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.voxsledderman.cryptoExchange.domain.entities.TradeOrder;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
 import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
 import org.voxsledderman.cryptoExchange.domain.market.PriceProvider;
 import org.voxsledderman.cryptoExchange.domain.repositories.EconomyRepository;
 import org.voxsledderman.cryptoExchange.domain.repositories.WalletRepository;
+import org.voxsledderman.cryptoExchange.domain.services.WalletCalculator;
 import org.voxsledderman.cryptoExchange.infrastructure.config.manager.AppConfigManager;
 import org.voxsledderman.cryptoExchange.infrastructure.config.manager.MenuConfigManager;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.MenuContext;
@@ -23,6 +25,7 @@ import xyz.xenondevs.invui.item.Item;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +36,8 @@ public class PortfolioMenu extends Menu{
     private final PositionState positionState;
 
     public PortfolioMenu(MenuType menuType, Wallet wallet, PriceProvider priceProvider,
-                         PositionState positionState, MenuContext menuContext) {
-        super(menuContext, menuType);
+                         PositionState positionState, MenuContext menuContext, JavaPlugin plugin) {
+        super(plugin, menuContext, menuType);
         this.wallet = wallet;
         this.priceProvider = priceProvider;
         this.positionState = positionState;
@@ -49,8 +52,11 @@ public class PortfolioMenu extends Menu{
         var marketData = priceProvider.getFullMarketData(new ArrayList<>(ordersMap.keySet())); //TODO: test if possible
 
         ordersMap.keySet()
-                .forEach(ticker ->
-                        items.add(new TradeItem(wallet, marketData.get(ticker), ticker, positionState)));
+                .forEach(ticker -> {
+                    if(WalletCalculator.getTotalAmountOfCryptoAcquired(wallet, ticker, positionState).compareTo(BigDecimal.ZERO) > 0) {
+                        items.add(new TradeItem(wallet, marketData.get(ticker), ticker, positionState));
+                    }
+                });
 
         return PagedGui.items()
                 .setStructure(
@@ -63,7 +69,7 @@ public class PortfolioMenu extends Menu{
                 .addIngredient('T', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
                 .addIngredient('N', new NextItem(true))
                 .addIngredient('B', new BackItem(false))
-                .addIngredient('P', new StateFilterItem(positionState, wallet, priceProvider, getMenuContext()))
+                .addIngredient('P', new StateFilterItem(positionState, wallet, priceProvider, getMenuContext(), getPlugin()))
                 .addIngredient('w', new SimpleItem(new ItemStack(Material.WHITE_STAINED_GLASS_PANE)))
                 .addIngredient('b', new SimpleItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE)))
                 .setContent(items)
