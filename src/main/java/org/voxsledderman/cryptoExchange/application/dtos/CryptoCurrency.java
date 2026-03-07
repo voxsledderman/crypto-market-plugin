@@ -9,6 +9,6 @@ public class CryptoCurrency {
     private final String ticker;
     private String name;
     private BigDecimal currentPrice;
-    private String OneDayChangePercentage;
+    private String oneDayChangePercentage;
 
 }

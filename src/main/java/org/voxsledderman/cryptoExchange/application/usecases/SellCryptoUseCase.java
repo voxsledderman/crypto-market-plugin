@@ -25,7 +25,7 @@ public class SellCryptoUseCase {
         validateInput(sellerId, wallet, ticker, amountToClose);
 
         BigDecimal maxAmount = WalletCalculator.getTotalAmountOfCryptoAcquired(wallet, ticker, PositionState.OPENED);
-        if (amountToClose.compareTo(maxAmount) >= 0) return false;
+        if (amountToClose.compareTo(maxAmount) > 0) return false;
 
         List<TradeOrder> openTrades = getOpenTradesSortedByAmount(wallet, ticker);
         if (openTrades.isEmpty()) return false;

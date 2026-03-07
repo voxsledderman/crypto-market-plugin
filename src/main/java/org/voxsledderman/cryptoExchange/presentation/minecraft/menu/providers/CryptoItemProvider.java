@@ -2,7 +2,7 @@ package org.voxsledderman.cryptoExchange.presentation.minecraft.menu.providers;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.voxsledderman.cryptoExchange.infrastructure.providers.CryptoInfo;
+import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
 import org.voxsledderman.cryptoExchange.presentation.formatters.PriceFormatter;
 import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.invui.item.ItemProvider;

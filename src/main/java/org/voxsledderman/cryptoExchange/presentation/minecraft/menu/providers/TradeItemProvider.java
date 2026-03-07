@@ -5,7 +5,7 @@ import org.voxsledderman.cryptoExchange.domain.entities.TradeOrder;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
 import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
 import org.voxsledderman.cryptoExchange.domain.services.WalletCalculator;
-import org.voxsledderman.cryptoExchange.infrastructure.providers.CryptoInfo;
+import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
 import org.voxsledderman.cryptoExchange.presentation.formatters.PriceFormatter;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;

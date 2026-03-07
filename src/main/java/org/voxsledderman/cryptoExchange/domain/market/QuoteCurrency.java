@@ -7,7 +7,7 @@ public enum QuoteCurrency {
     EURO("EUR"),
     PLN("PLN"),
     TRY("TRY"),
-    GBD("DBD"),
+    GBD("GBD"),
     BRL("BRL");
 
     @Getter

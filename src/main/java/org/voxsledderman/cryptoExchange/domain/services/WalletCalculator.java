@@ -3,7 +3,7 @@ package org.voxsledderman.cryptoExchange.domain.services;
 import org.voxsledderman.cryptoExchange.domain.entities.TradeOrder;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
 import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
-import org.voxsledderman.cryptoExchange.infrastructure.providers.CryptoInfo;
+import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class WalletCalculator {
+
+    private WalletCalculator() {}
 
     public static BigDecimal getTotalCurrentEarnings(Wallet wallet, Map<String, CryptoInfo> currentCryptoInfo) {
         if (wallet.getOrders() == null || currentCryptoInfo == null) return BigDecimal.ZERO;

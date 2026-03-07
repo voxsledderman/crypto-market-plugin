@@ -1,4 +1,4 @@
-package org.voxsledderman.cryptoExchange.infrastructure.providers;
+package org.voxsledderman.cryptoExchange.domain.market;
 
 import java.math.BigDecimal;
 

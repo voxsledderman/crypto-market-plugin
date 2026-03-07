@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.voxsledderman.cryptoExchange.application.usecases.SellCryptoUseCase;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
-import org.voxsledderman.cryptoExchange.infrastructure.providers.CryptoInfo;
+import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;

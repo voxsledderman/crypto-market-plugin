@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.voxsledderman.cryptoExchange.domain.entities.TradeOrder;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
 import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
-import org.voxsledderman.cryptoExchange.infrastructure.providers.CryptoInfo;
+import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
 
 import java.math.BigDecimal;
 import java.util.*;

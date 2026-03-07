@@ -2,9 +2,11 @@ package org.voxsledderman.cryptoExchange.infrastructure.providers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.knowm.xchange.currency.Currency;
+import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
 import org.voxsledderman.cryptoExchange.domain.market.PriceProvider;
 import org.voxsledderman.cryptoExchange.domain.market.QuoteCurrency;
 
@@ -16,6 +18,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class BinanceWebSocketProvider implements PriceProvider {
 
     private final Map<String, CryptoInfo> latestPrices = new ConcurrentHashMap<>();
@@ -41,7 +44,7 @@ public class BinanceWebSocketProvider implements PriceProvider {
             this.client = new WebSocketClient(new URI(urlBuilder.toString())) {
                 @Override
                 public void onOpen(ServerHandshake handShakeData) {
-                    System.out.println("Połączono z Binance WebSocket");
+                    log.info("Connected with Binance Websocket successfully");
                 }
 
                 @Override
@@ -60,19 +63,19 @@ public class BinanceWebSocketProvider implements PriceProvider {
                         ));
                         latestChanges.put(symbol, change);
                     } catch (Exception e) {
-                        System.err.println("Błąd parsowania: " + e.getMessage());
+                        log.error("Parsing Error: {}", e.getMessage());
                     }
                 }
 
                 @Override
                 public void onClose(int code, String reason, boolean remote) {
-                    System.out.println("Connection interrupted: " + code + ", Reason: " + reason);
+                    log.error("Connection interrupted: {}, Reason: {}", code, reason);
 
                     if (!running) return;
 
                     new Thread(() -> {
                         try {
-                            System.out.println("Trying to reconnect in 5 seconds...");
+                            log.info("Trying to reconnect in 5 seconds...");
                             Thread.sleep(5000);
                             if (running) reconnect();
                         } catch (InterruptedException e) {

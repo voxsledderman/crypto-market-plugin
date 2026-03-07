@@ -19,10 +19,14 @@ public class WalletItem extends AutoUpdateItem {
    private final Wallet wallet;
    private final MenuFactory menuFactory;
 
-    public WalletItem(UUID uuid , MenuFactory menuFactory ,GetOrCreateWalletUseCase getOrCreateWalletUseCase) {
-        super(3 * 20, () -> WalletItemProvider.createProvider(menuFactory.getPriceProvider(), menuFactory.getMenuContext(), getOrCreateWalletUseCase.getOrCreateWallet(uuid)));
+    public WalletItem(UUID uuid, MenuFactory menuFactory, GetOrCreateWalletUseCase getOrCreateWalletUseCase) {
+        this(menuFactory, getOrCreateWalletUseCase.getOrCreateWallet(uuid));
+    }
+
+    private WalletItem(MenuFactory menuFactory , Wallet wallet) {
+        super(3 * 20, () -> WalletItemProvider.createProvider(menuFactory.getPriceProvider(), menuFactory.getMenuContext(), wallet));
         this.menuFactory = menuFactory;
-        wallet = getOrCreateWalletUseCase.getOrCreateWallet(uuid);
+        this.wallet = wallet;
     }
 
     @Override

@@ -3,7 +3,7 @@ package org.voxsledderman.cryptoExchange.presentation.minecraft.menu;
 import org.bukkit.entity.Player;
 import org.voxsledderman.cryptoExchange.application.usecases.GetOrCreateWalletUseCase;
 import org.voxsledderman.cryptoExchange.domain.market.PriceProvider;
-import org.voxsledderman.cryptoExchange.infrastructure.providers.CryptoInfo;
+import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.MenuFactory;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.items.*;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.tittle.MenuType;
