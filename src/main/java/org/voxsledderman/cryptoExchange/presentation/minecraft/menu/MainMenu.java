@@ -11,12 +11,15 @@ import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.gui.PagedGui;
 import xyz.xenondevs.invui.gui.structure.Markers;
 import xyz.xenondevs.invui.item.Item;
+import xyz.xenondevs.invui.item.ItemProvider;
+import xyz.xenondevs.invui.item.impl.SimpleItem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class MainMenu extends Menu{
+
     private final Player player;
     private final PriceProvider priceProvider;
     private final MenuFactory menuFactory;
@@ -31,6 +34,8 @@ public class MainMenu extends Menu{
     public Gui setupGui() {
         List<Item> cryptoItems = new ArrayList<>();
         Map<String, CryptoInfo> map = priceProvider.getFullMarketData(getAppConfigManager().getTrackedTickers());
+        Item settingsItem = player.hasPermission(Menu.ADMIN_VIEW_SETTINGS_PERM) || player.hasPermission(Menu.ADMIN_CHANGE_SETTINGS_PERM)
+                ? new SettingsItem() : new SimpleItem(ItemProvider.EMPTY);
 
         map.entrySet()
                 .stream()
@@ -41,7 +46,7 @@ public class MainMenu extends Menu{
 
         return PagedGui.items()
                 .setStructure(
-                        "P . . . . . . . E" ,
+                        "P . . . S . . . E" ,
                         ". . C C C C C . ." ,
                         "< . C C C C C . >" ,
                         ". . C C C C C . ." ,
@@ -53,6 +58,7 @@ public class MainMenu extends Menu{
                 .addIngredient('<', new BackItem(false))
                 .addIngredient('>', new NextItem(true))
                 .addIngredient('P', new WalletItem(player.getUniqueId(), getMenuFactory(), new GetOrCreateWalletUseCase(getWalletRepository())))
+                .addIngredient('S', settingsItem)
                 .setContent(cryptoItems)
                 .build();
     }

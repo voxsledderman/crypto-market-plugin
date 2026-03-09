@@ -10,7 +10,7 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 
 import java.util.List;
 
-public class CryptoItemProvider {
+public class CryptoItemProvider{
 
     public static ItemProvider createProvider(CryptoInfo info) {
         return new ItemBuilder(Material.GOLD_NUGGET)

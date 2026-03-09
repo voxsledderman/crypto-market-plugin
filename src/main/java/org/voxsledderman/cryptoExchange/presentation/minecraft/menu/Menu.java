@@ -16,6 +16,10 @@ import xyz.xenondevs.invui.window.Window;
 
 @Getter
 public abstract class Menu  {
+
+    public static final String ADMIN_VIEW_SETTINGS_PERM = "cryptoExchange.admin.view.settings";
+    public static final String ADMIN_CHANGE_SETTINGS_PERM = "cryptoExchange.admin.change.settings";
+
    private Window window;
    private final MenuType menuType;
    private final MenuFactory menuFactory;

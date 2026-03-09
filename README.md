@@ -7,10 +7,8 @@
 
 ## About
 
----
-
 **crypto-market-plugin** brings a real-time cryptocurrency exchange directly into Minecraft.
 Players can buy and sell crypto assets using in-game currency, monitor live prices streamed
-from the Binance WebSocket API, and track their portfolio value and ROI — all through
+from the Binance WebSocket API, and track their portfolio value and ROI, all through
 an interactive inventory-based GUI.
 
