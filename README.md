@@ -24,7 +24,7 @@ an interactive inventory-based GUI.
 
 ## Architecture
 
-The plugin is built on **Clean Architecture**. Each layer depends only on the layer below it — domain logic has zero external dependencies and no knowledge of Minecraft, databases, or any framework.
+The plugin is built on **Clean Architecture**. Each layer depends only on the layer below it, domain logic has zero external dependencies and no knowledge of Minecraft, databases, or any framework.
 
 ![Architecture](assets/architecture.svg)
 
@@ -38,14 +38,14 @@ The plugin is built on **Clean Architecture**. Each layer depends only on the la
 
 ## Features
 
-- **Live prices** — Binance WebSocket stream with `ConcurrentHashMap` cache and automatic reconnect on failure
-- **Buy & Sell** — full order lifecycle with partial position closing (FIFO) and configurable spread fee
-- **Portfolio view** — open and closed positions with real-time P&L, filterable by state
-- **MySQL / SQLite** — HikariCP connection pooling for MySQL, automatic fallback to embedded SQLite
-- **In-memory cache** — `CachedWalletRepository` layer on top of ORMLite eliminates redundant DB reads
-- **Admin panel** — in-game settings GUI, permission-gated, no server restart required
-- **Vault integration** — works with any Vault-compatible economy plugin, transactional with rollback on failure
-- **30+ coins** — BTC, ETH, SOL, DOGE, XRP and more — any Binance ticker can be added
+- **Live prices** - Binance WebSocket stream with `ConcurrentHashMap` cache and automatic reconnect on failure
+- **Buy & Sell** - full order lifecycle with partial position closing (FIFO) and configurable spread fee
+- **Portfolio view** - open and closed positions with real-time P&L, filterable by state
+- **MySQL / SQLite** - HikariCP connection pooling for MySQL, automatic fallback to embedded SQLite
+- **In-memory cache** - `CachedWalletRepository` layer on top of ORMLite eliminates redundant DB reads
+- **Admin panel** - in-game settings GUI, permission-gated, no server restart required
+- **Vault integration** - works with any Vault-compatible economy plugin, transactional with rollback on failure
+- **30+ coins** - BTC, ETH, SOL, DOGE, XRP and more - any Binance ticker can be added
 
 ---
 
@@ -83,7 +83,7 @@ MySQL_database:
 
 1. Download `CryptoExchange.jar` 
 2. Place it in your server's `plugins/` directory
-3. Start the server — `config.yml` is generated on first run
+3. Start the server - `config.yml` is generated on first run
 4. Configure and reload
 
 ---
@@ -145,8 +145,8 @@ Unit tests cover core domain logic with no Minecraft runtime required.
 ./gradlew test
 ```
 
-- `TradeOrderTest` — position lifecycle, open/closed P&L calculation
-- `WalletCalculatorTest` — total acquired volume across open positions
+- `TradeOrderTest` - position lifecycle, open/closed P&L calculation
+- `WalletCalculatorTest` - total acquired volume across open positions
 
 ---
 
