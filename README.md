@@ -77,16 +77,27 @@ MySQL_database:
 
 ---
 
+---
+
 ## Installation
 
 **Requirements:** Java 21 · Paper 1.20.6 · [Vault](https://www.spigotmc.org/resources/vault.34315/) · [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) · any Vault economy plugin (e.g. EssentialsX)
 
-1. Download `CryptoExchange.jar` 
+1. Download the latest `.jar` from [**Releases**](https://github.com/voxsledderman/crypto-market-plugin/releases)
 2. Place it in your server's `plugins/` directory
 3. Start the server - `config.yml` is generated on first run
 4. Configure and reload
 
 ---
+
+## Building from Source
+
+```bash
+git clone [https://github.com/voxsledderman/crypto-market-plugin.git](https://github.com/voxsledderman/crypto-market-plugin.git)
+cd crypto-market-plugin
+
+./gradlew shadowJar     # → build/libs/CryptoMarket-all.jar (or similar)
+./gradlew test          # run unit tests
 
 ## Building from Source
 
