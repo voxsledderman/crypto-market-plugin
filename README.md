@@ -17,8 +17,7 @@ an interactive inventory-based GUI.
 
 ## Demo
 
-<!-- Drag and drop an MP4 into a GitHub Issue to get a hosted link, then paste it here -->
-> Video coming soon.
+![Plugin Demo](assets/demo.gif)
 
 ---
 
