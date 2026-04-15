@@ -10,9 +10,9 @@ public class PageItemProvider {
     public static ItemProvider createBackItemProvider(PagedGui<?> gui) {
         ItemBuilder builder = new ItemBuilder(Material.ARROW);
         if(gui.hasPreviousPage()){
-            builder.setDisplayName("Go to previous page");
+            builder.setDisplayName("<green>Go to previous page");
         } else {
-            builder.setDisplayName("You're on the first page");
+            builder.setDisplayName("<#F0E6A1>You're on the first page");
         }
         builder.addLoreLines(
                 "Page (%d/%d)".formatted(gui.getCurrentPage() + 1, gui.getPageAmount())
@@ -22,9 +22,9 @@ public class PageItemProvider {
     public static ItemProvider createNextItemProvider(PagedGui<?> gui) {
         ItemBuilder builder = new ItemBuilder(Material.ARROW);
         if(gui.hasNextPage()){
-            builder.setDisplayName("Go to next page");
+            builder.setDisplayName("<green>Go to next page");
         } else {
-            builder.setDisplayName("You're on the last page");
+            builder.setDisplayName("<#F0E6A1>You're on the last page");
         }
         builder.addLoreLines(
                 "Page (%d/%d)".formatted(gui.getCurrentPage() + 1, gui.getPageAmount())

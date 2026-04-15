@@ -11,13 +11,13 @@ public class StateFilterItemProvider {
         ItemBuilder builder;
         if(positionState.equals(PositionState.OPENED)) {
             builder = new ItemBuilder(Material.GLOW_INK_SAC);
-            builder.addLoreLines("§aOpened Positions");
+            builder.addLoreLines("<green>Opened Positions");
         }
         else{
             builder = new ItemBuilder(Material.INK_SAC);
-            builder.addLoreLines("§cClosed Positions");
+            builder.addLoreLines("<red>Closed Positions");
         }
-
+        builder.setDisplayName("Position Filter");
         return builder;
     }
 }

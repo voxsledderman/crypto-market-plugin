@@ -28,10 +28,10 @@ public class PickAmountItem extends AbstractItem {
     @Override
     public ItemProvider getItemProvider(){
         return new ItemBuilder(Material.HOPPER)
-                .setDisplayName("Pick crypto amount to buy/sell")
+                .setDisplayName("<bold>Click to pick amount")
                 .addLoreLines(
                         " ",
-                        "picked amount -> %s".formatted(pickedAmount)
+                        "<gray>picked amount<dark_gray> >> <yellow>%s".formatted(pickedAmount)
                         );
     }
 

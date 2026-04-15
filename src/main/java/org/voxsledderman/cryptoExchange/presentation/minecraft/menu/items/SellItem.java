@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.voxsledderman.cryptoExchange.application.usecases.SellCryptoUseCase;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
 import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
+import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.providers.SellItemProvider;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
@@ -39,9 +40,9 @@ public class SellItem extends AbstractItem {
     @Override
     public ItemProvider getItemProvider() {
         if (error) {
-            return new ItemBuilder(Material.BARRIER).setDisplayName("error");
+            return new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setDisplayName("<red>Error").addLoreLines(" ", "You need to specify amount!");
         }
-        return new ItemBuilder(Material.RED_STAINED_GLASS_PANE).setDisplayName("sell");
+        return SellItemProvider.createProvider(cryptoInfo.fullName(), pickedAmount, cryptoInfo.price());
     }
 
     @Override

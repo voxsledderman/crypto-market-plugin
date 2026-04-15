@@ -6,6 +6,8 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder;
 
 public class SettingsItemProvider {
     public static ItemProvider createProvider(){
-        return new ItemBuilder(Material.WRITABLE_BOOK).setDisplayName("Admin settings");
+        return new ItemBuilder(Material.WRITABLE_BOOK).setDisplayName("Admin settings").addLoreLines(
+                "<gray>only permitted players can see this",
+                "<yellow>click to open plugin settings");
     }
 }

@@ -1,5 +1,6 @@
 package org.voxsledderman.cryptoExchange.presentation.minecraft.menu.providers;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.voxsledderman.cryptoExchange.domain.entities.TradeOrder;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
@@ -7,6 +8,7 @@ import org.voxsledderman.cryptoExchange.domain.entities.enums.PositionState;
 import org.voxsledderman.cryptoExchange.domain.services.WalletCalculator;
 import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
 import org.voxsledderman.cryptoExchange.presentation.formatters.PriceFormatter;
+import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 
@@ -20,16 +22,21 @@ public class TradeItemProvider {
 
     public static ItemProvider createProvider(Wallet wallet, String ticker, CryptoInfo cryptoInfo, PositionState positionState){
         String cryptoValue = PriceFormatter.formatMoney(WalletCalculator.getSingleCryptoValue(wallet, ticker, cryptoInfo, positionState));
-        String roi = PriceFormatter.formatPercentage(WalletCalculator.getSingleCryptoROI(wallet, ticker, cryptoInfo, positionState).toString());
+        String roiSuffix = Utility.getChangePercentSuffix(WalletCalculator.getSingleCryptoROI(wallet, ticker, cryptoInfo, positionState).toString());
         AtomicInteger temp = new AtomicInteger(1);
 
         ItemBuilder builder = new ItemBuilder(Material.BOOK);
-        builder.setDisplayName(cryptoInfo.fullName() + " x"  + WalletCalculator.getTotalAmountOfCryptoAcquired(wallet, ticker, positionState));
-        builder.addLoreLines("total value: %s >> %s".formatted(cryptoValue , roi));
+        builder.setDisplayName(new AdventureComponentWrapper(
+                Component.text(
+                        "<gray>Total value<dark_gray>: <gold>%s <gray>>> %s".formatted(cryptoValue , roiSuffix)
+
+                )));
+        builder.addLoreLines(" ");
         wallet.getOrders().get(ticker)
                 .stream()
                 .filter(trade -> trade.isOpened() == (positionState == PositionState.OPENED))
-                .forEach(trade -> addLoreLines(trade, cryptoInfo, temp.getAndIncrement(), builder));
+                .forEach(trade -> addLoreLines(trade, cryptoInfo, temp.getAndIncrement(), builder)
+                );
         return builder;
     }
 
@@ -50,9 +57,9 @@ public class TradeItemProvider {
                     .multiply(HUNDRED);
         }
         builder.addLoreLines(
-                "%s. %s x%s %s >> %s".formatted(index, cryptoInfo.fullName(), trade.getAmount(),
-                        PriceFormatter.formatMoney(valueNow), PriceFormatter.formatPercentage(profitPercent.toString())
-                )
-        );
+                "<gray>%s. <#F0E6A1>%s <dark_gray>x<gray>%s <white>|<white> <gold>%s <white>| %s".formatted(index, cryptoInfo.fullName(), trade.getAmount(),
+                        PriceFormatter.formatMoney(valueNow),
+                            Utility.getChangePercentSuffix(profitPercent))
+                );
     }
 }

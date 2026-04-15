@@ -1,6 +1,7 @@
 package org.voxsledderman.cryptoExchange.presentation.minecraft.menu.providers;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Material;
 import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
 import org.voxsledderman.cryptoExchange.presentation.formatters.PriceFormatter;
@@ -14,14 +15,16 @@ public class CryptoItemProvider{
 
     public static ItemProvider createProvider(CryptoInfo info) {
         return new ItemBuilder(Material.GOLD_NUGGET)
-                .setDisplayName(info.fullName())
+                .setDisplayName(new AdventureComponentWrapper(
+                        Component.text("<bold>" + info.fullName())
+                ))
                 .setLore(List.of(
                         new AdventureComponentWrapper(
-                                Component.text("Price: %s".formatted(PriceFormatter.formatMoney(info.price())))
+                                Component.text("<gray>Price<dark_gray>: <gold>%s".formatted(PriceFormatter.formatMoney(info.price())))
                         ),
                         new AdventureComponentWrapper(
-                                Component.text("24h change: %s".formatted(PriceFormatter.formatPercentage(info.changePercent())))
+                                Component.text("<gray>24h change<dark_gray>: %s".formatted(Utility.getChangePercentSuffix(info.changePercent()))))
                         )
-                ));
+                );
     }
 }

@@ -85,7 +85,7 @@ tasks {
         mergeServiceFiles()
         outputs.upToDateWhen { false }
         archiveFileName.set("CryptoExchange.jar")
-        destinationDirectory.set(file("/home/voxsledderman/Pulpit/spawn/plugins"))
+        destinationDirectory.set(file("C:\\Users\\barto\\Desktop\\spawn\\plugins"))
 
         relocate("javax.inject", "org.voxsledderman.cryptoExchange.libs.inject")
         relocate("org.aopalliance", "org.voxsledderman.cryptoExchange.libs.aopalliance")

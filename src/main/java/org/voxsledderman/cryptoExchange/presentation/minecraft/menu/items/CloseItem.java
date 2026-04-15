@@ -12,7 +12,7 @@ import xyz.xenondevs.invui.item.impl.AbstractItem;
 public class CloseItem extends AbstractItem {
     @Override
     public ItemProvider getItemProvider(){
-        return new ItemBuilder(Material.BARRIER).setDisplayName("Exit exchange");
+        return new ItemBuilder(Material.BARRIER).setDisplayName("<red>Exit exchange");
     }
     @Override
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {

@@ -20,7 +20,7 @@ public class TurnBackItem extends AbstractItem {
 
     @Override
     public ItemProvider getItemProvider(){
-        return new ItemBuilder(Material.ENDER_PEARL).setDisplayName("Open previous menu");
+        return new ItemBuilder(Material.ENDER_PEARL).setDisplayName("<yellow>Open previous menu");
     }
 
     @Override
