@@ -10,6 +10,7 @@ import org.voxsledderman.cryptoExchange.application.dtos.CryptoAssetDto;
 import org.voxsledderman.cryptoExchange.application.usecases.BuyCryptoUseCase;
 import org.voxsledderman.cryptoExchange.domain.entities.Wallet;
 import org.voxsledderman.cryptoExchange.domain.market.CryptoInfo;
+import org.voxsledderman.cryptoExchange.infrastructure.config.manager.AppConfigManager;
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.providers.BuyItemProvider;
 import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
@@ -25,15 +26,17 @@ public class BuyItem extends AbstractItem {
     private final String ticker;
     private final CryptoInfo cryptoInfo;
     private boolean error = false;
+    private final AppConfigManager appConfigManager;
 
     public BuyItem(BuyCryptoUseCase buyCryptoUseCase, BigDecimal pickedAmount,
-                   JavaPlugin plugin, Wallet wallet, String ticker, CryptoInfo cryptoInfo) {
+                   JavaPlugin plugin, Wallet wallet, String ticker, CryptoInfo cryptoInfo, AppConfigManager appConfigManager) {
         this.buyCryptoUseCase = buyCryptoUseCase;
         this.pickedAmount = pickedAmount;
         this.plugin = plugin;
         this.wallet = wallet;
         this.ticker = ticker;
         this.cryptoInfo = cryptoInfo;
+        this.appConfigManager = appConfigManager;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class BuyItem extends AbstractItem {
         if (error) {
             return new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).setDisplayName("<red>Error").addLoreLines(" ", "You need to specify amount!");
         }
-        return BuyItemProvider.createProvider(cryptoInfo.fullName(), pickedAmount, cryptoInfo.price());
+        return BuyItemProvider.createProvider(cryptoInfo.fullName(), pickedAmount, cryptoInfo.price(), appConfigManager);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class BuyItem extends AbstractItem {
             triggerErrorState();
         } else {
             player.closeInventory();
-            player.sendMessage("You bought (%s)x %s".formatted(pickedAmount, cryptoInfo.fullName()));
+            player.sendMessage("<green>You bought <white>%sx <gold>%s".formatted(pickedAmount, cryptoInfo.fullName()));
         }
     }
 

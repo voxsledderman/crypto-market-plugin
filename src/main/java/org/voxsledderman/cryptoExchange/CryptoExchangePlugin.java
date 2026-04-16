@@ -64,8 +64,8 @@ public final class CryptoExchangePlugin extends JavaPlugin {
                     .commands(
                             new ExchangeCommand(new MenuFactory(new MenuContext(appConfigManager, menuConfigManager, walletRepository, economyRepository), this, binanceWebSocketProvider))
                     )
-                    .message(LiteMessages.MISSING_PERMISSIONS, permission -> "§cNie masz permisji na wykonanie tej komendy!")
-                    .message(LiteMessages.INVALID_USAGE, invalidUsage ->  "§cNiepoprawne użycie komendy!")
+                    .message(LiteMessages.MISSING_PERMISSIONS, permission -> "§cYou don't have permission to use this command!")
+                    .message(LiteMessages.INVALID_USAGE, invalidUsage ->  "§cInvalid command usage!")
                     .build();
         }, 40);
     }

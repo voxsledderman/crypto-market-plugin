@@ -44,7 +44,7 @@ public class BuySellCryptoMenu extends Menu{
                 .addIngredient('E', new CloseItem())
                 .addIngredient('b', new BuyItem(new BuyCryptoUseCase(
                         getWalletRepository(), getEconomyRepository(), getAppConfigManager()
-                ), pickedAmount, getPlugin(), wallet, ticker, priceProvider.getCurrentData(ticker)))
+                ), pickedAmount, getPlugin(), wallet, ticker, priceProvider.getCurrentData(ticker), getAppConfigManager()))
                 .addIngredient('s', new SellItem(new SellCryptoUseCase(
                         getEconomyRepository(), getWalletRepository(), priceProvider),
                         pickedAmount, getPlugin(), wallet, ticker, priceProvider.getCurrentData(ticker)

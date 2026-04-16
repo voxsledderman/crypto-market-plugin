@@ -57,6 +57,5 @@ public class AppConfigManager {
                     password, maxConnections
             );
         }
-
     }
 }

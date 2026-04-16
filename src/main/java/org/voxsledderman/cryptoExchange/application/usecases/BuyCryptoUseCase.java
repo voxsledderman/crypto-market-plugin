@@ -30,10 +30,9 @@ public class BuyCryptoUseCase {
             throw new IllegalArgumentException("Provided CryptoAsset value is equal or smaller than 0!");
         }
 
-        //TODO: uncomment
-//        if(!economyRepository.hasEnough(buyerId, totalCost)){
-//            return false;
-//        }
+        if(!economyRepository.hasEnough(buyerId, totalCost)){
+            return false;
+        }
         if (!economyRepository.withdraw(buyerId, totalCost)) {
             throw new IllegalStateException("Could not withdraw funds for buyer: " + buyerId);
         }

@@ -13,7 +13,7 @@ menu:
     main-menu:
     portfolio-opened-positions:
     portfolio-closed-positions:
-    admin-settings:
+    admin-panel:
     buy_or_sell_crypto:
     pick_crypto_amount:
   menu-sounds:
@@ -53,21 +53,13 @@ market:
     - "LTC"
     - "BCH"
     - "XLM"
-    - "AVAX"
-    - "DOT"
-    - "SUI"
     - "HBAR"
     - "XMR"
     - "ALGO"
     - "NEAR"
-    - "UNI"
-    - "FIL"
-    - "ICP"
     - "OKB"
-    - "SHIB"
     - "LEO"
     - "HYPE"
-    - "TON"
     - "DAI"
 
 # If MySQL is disabled SQLite will be used instead

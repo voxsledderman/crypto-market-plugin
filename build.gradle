@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.voxsledderman'
-version = '1.0'
+version = '1.0.0'
 
 def targetJavaVersion = 21
 
@@ -82,9 +82,10 @@ tasks {
     }
 
     shadowJar {
+        minimize()
         mergeServiceFiles()
         outputs.upToDateWhen { false }
-        archiveFileName.set("CryptoExchange.jar")
+        archiveFileName.set("CryptoExchange-${project.version}.jar")
         destinationDirectory.set(file("C:\\Users\\barto\\Desktop\\spawn\\plugins"))
 
         relocate("javax.inject", "org.voxsledderman.cryptoExchange.libs.inject")
@@ -97,9 +98,6 @@ tasks {
         relocate("dev.rollczi.litecommands", "org.voxsledderman.cryptoExchange.libs.litecommands")
         relocate("net.wesjd.anvilgui", "org.voxsledderman.cryptoExchange.libs.anvilgui")
 
-//        dependencies {
-//            include(dependency("net.wesjd:anvilgui:.*"))
-//        }
         test {
             useJUnitPlatform()
         }

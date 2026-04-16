@@ -11,6 +11,7 @@ import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.items.Crypto
 import org.voxsledderman.cryptoExchange.presentation.minecraft.menu.tittle.MenuType;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 public class MenuFactory {
@@ -37,5 +38,8 @@ public class MenuFactory {
     }
     public AnvilAmountPicker createAnvilAmountPickerMenu(){
         return new AnvilAmountPicker(this, getPlugin(), menuContext.getMenuConfigManager());
+    }
+    public AdminPanelMenu createAdminPanelMenu(UUID adminUuid) {
+        return new AdminPanelMenu(MenuType.ADMIN_PANEL, this, adminUuid, menuContext);
     }
 }

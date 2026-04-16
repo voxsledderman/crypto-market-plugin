@@ -61,7 +61,7 @@ public class SellItem extends AbstractItem {
             triggerErrorState();
         } else {
             player.closeInventory();
-            player.sendMessage("You sold (%s)x %s".formatted(pickedAmount, cryptoInfo.fullName()));
+            player.sendMessage("<red>You sold <white>%sx <gold>%s".formatted(pickedAmount, cryptoInfo.fullName()));
         }
     }
 

@@ -9,14 +9,14 @@ import xyz.xenondevs.invui.item.ItemProvider;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.AbstractItem;
 
-public class SettingsItem extends AbstractItem {
+public class TransactionHistoryItem extends AbstractItem {
 
     @Override
     public ItemProvider getItemProvider() {
-        return new ItemBuilder(Material.REPEATER).setDisplayName("<red>Plugin Settings");
+        return new ItemBuilder(Material.OAK_SIGN).setDisplayName("<yellow>Transaction History");
     }
     @Override
     public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent event) {
-        player.sendMessage("<red>Available next update!");
+        player.sendMessage("<red>Work in progress...");
     }
 }

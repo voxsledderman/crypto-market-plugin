@@ -35,7 +35,8 @@ public class MainMenu extends Menu{
         List<Item> cryptoItems = new ArrayList<>();
         Map<String, CryptoInfo> map = priceProvider.getFullMarketData(getAppConfigManager().getTrackedTickers());
         Item settingsItem = player.hasPermission(Menu.ADMIN_VIEW_SETTINGS_PERM) || player.hasPermission(Menu.ADMIN_CHANGE_SETTINGS_PERM)
-                ? new SettingsItem() : new SimpleItem(ItemProvider.EMPTY);
+                ? new AdminPanelItem(menuFactory, ADMIN_VIEW_SETTINGS_PERM) : new SimpleItem(ItemProvider.EMPTY);
+
 
         map.entrySet()
                 .stream()
